@@ -1,0 +1,40 @@
+# Phase A: Tachelhit speech -> Arabic text (speech translation) with Whisper small.
+# Fits a 16 GB GPU (RX 9060 XT) in bf16 with gradient checkpointing.
+model_name: openai/whisper-small
+language: arabic       # output language token; Whisper has no Tachelhit token
+task: transcribe       # "transcribe" into Arabic text works better than Whisper's English-only "translate"
+normalizer: arabic
+
+train_sources: [dahimi, tutlait_souss]
+eval_sources: [dahimi, tutlait_souss]
+eval_split: test
+max_eval_samples: 500  # per source; keeps generation-based eval fast
+num_proc: 4
+
+training:
+  output_dir: outputs/whisper-small-shi2ar
+  per_device_train_batch_size: 16
+  gradient_accumulation_steps: 2
+  per_device_eval_batch_size: 16
+  learning_rate: 1.0e-5
+  warmup_steps: 500
+  max_steps: 5000
+  gradient_checkpointing: true
+  bf16: true
+  eval_strategy: steps
+  eval_steps: 500
+  save_strategy: steps
+  save_steps: 500
+  save_total_limit: 3
+  logging_steps: 25
+  predict_with_generate: true
+  generation_max_length: 225
+  load_best_model_at_end: true
+  metric_for_best_model: chrf
+  greater_is_better: true
+  report_to: none        # set to wandb after `pip install -e .[track]`
+  dataloader_num_workers: 2
+  remove_unused_columns: false
+  label_names: [labels]
+  push_to_hub: false     # set true to publish to the Hub at the end
+  hub_model_id: OthmaneW/tachelhit-asr

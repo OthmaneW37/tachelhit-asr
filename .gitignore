@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Training outputs and data caches
+outputs/
+checkpoints/
+wandb/
+data/raw/
+data/cache/
+*.wav
+*.mp3
+*.flac
+*.parquet
+
+.env
+.DS_Store
