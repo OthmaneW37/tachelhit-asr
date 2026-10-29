@@ -2,8 +2,8 @@
 
 ## Phase A — Speech translation (Tachelhit audio → Arabic text)
 - [x] Project skeleton, data loaders, training and evaluation scripts
-- [ ] ROCm environment working on RX 9060 XT (`scripts/check_gpu.py`)
-- [ ] Smoke test passes (`configs/smoke-test.yaml`)
+- [x] ROCm environment working on RX 9060 XT (`scripts/setup_wsl_rocm.sh`, `scripts/check_gpu.py`)
+- [x] Smoke test passes on GPU (`configs/smoke-test.yaml`)
 - [ ] Zero-shot baselines: whisper-small, whisper-medium, MMS
 - [ ] Fine-tune whisper-small; report WER / CER / chrF per test set
 - [ ] Error analysis by a native speaker (what is lost in translation?)
