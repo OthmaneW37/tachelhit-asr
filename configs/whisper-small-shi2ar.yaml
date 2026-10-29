@@ -9,13 +9,13 @@ train_sources: [dahimi, tutlait_souss]
 eval_sources: [dahimi, tutlait_souss]
 eval_split: test
 max_eval_samples: 500  # per source; keeps generation-based eval fast
-num_proc: 4
+num_proc: null        # multiprocess map hangs under WSL; single process takes ~15 min
 
 training:
   output_dir: outputs/whisper-small-shi2ar
-  per_device_train_batch_size: 16
-  gradient_accumulation_steps: 2
-  per_device_eval_batch_size: 16
+  per_device_train_batch_size: 8    # 16 hits a per-allocation limit under WSL (logits of long labels)
+  gradient_accumulation_steps: 4    # effective batch 32
+  per_device_eval_batch_size: 8
   learning_rate: 1.0e-5
   warmup_steps: 500
   max_steps: 5000

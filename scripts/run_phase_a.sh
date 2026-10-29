@@ -9,9 +9,11 @@ export HSA_ENABLE_DXG_DETECTION=1
 export HF_HUB_CACHE=${HF_HUB_CACHE:-/mnt/c/Users/othma/.cache/huggingface/hub}
 mkdir -p outputs
 
-echo "== zero-shot baseline $(date)"
-python -W ignore -m tachelhit_asr.evaluate --model openai/whisper-small \
-    --max-samples 500 --out outputs/eval/whisper-small-zeroshot
+if [ ! -f outputs/eval/whisper-small-zeroshot/metrics.json ]; then
+    echo "== zero-shot baseline $(date)"
+    python -W ignore -m tachelhit_asr.evaluate --model openai/whisper-small \
+        --max-samples 500 --out outputs/eval/whisper-small-zeroshot
+fi
 
 echo "== fine-tuning $(date)"
 python -W ignore -m tachelhit_asr.train --config configs/whisper-small-shi2ar.yaml
